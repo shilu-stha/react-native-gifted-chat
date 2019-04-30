@@ -198,7 +198,7 @@ const styles = {
     wrapper: {
       borderRadius: 15,
       backgroundColor: Color.leftBubbleBackground,
-      marginRight: 60,
+      marginRight: 20,
       minHeight: 20,
       justifyContent: 'flex-end',
     },
@@ -221,7 +221,7 @@ const styles = {
     wrapper: {
       borderRadius: 15,
       backgroundColor: Color.defaultBlue,
-      marginLeft: 60,
+      marginLeft: 20,
       minHeight: 20,
       justifyContent: 'flex-end',
     },
@@ -255,7 +255,7 @@ const styles = {
   usernameView: {
     flexDirection: 'row',
     marginHorizontal: 10,
-  },
+  }
 };
 
 Bubble.contextTypes = {

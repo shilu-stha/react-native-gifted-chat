@@ -12,6 +12,24 @@ import Day from './Day';
 import { isSameUser, isSameDay } from './utils';
 
 const styles = {
+  mainContainer: { 
+    flex:1, 
+    flexDirection: 'row' 
+  },
+  leftActionContainer: {
+    flex: 1,
+    margin: 8,
+    alignSelf:'stretch',
+    alignItems: 'flex-end',
+    justifyContent: 'center'
+  },
+  rightActionContainer: {
+    flex:1,
+    margin: 8,
+    alignSelf:'stretch',
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
   left: StyleSheet.create({
     container: {
       flexDirection: 'row',
@@ -19,7 +37,7 @@ const styles = {
       justifyContent: 'flex-start',
       marginLeft: 8,
       marginRight: 0,
-    },
+    }
   }),
   right: StyleSheet.create({
     container: {
@@ -28,8 +46,8 @@ const styles = {
       justifyContent: 'flex-end',
       marginLeft: 0,
       marginRight: 8,
-    },
-  }),
+    }
+  })
 };
 
 export default class Message extends React.Component {
@@ -100,6 +118,14 @@ export default class Message extends React.Component {
     return <Avatar {...avatarProps} />;
   }
 
+  renderMessageAction() {
+    const messageActionViewProps = this.getInnerComponentProps();
+    if (this.props.renderMessageAction) {
+      return this.props.renderMessageAction(messageActionViewProps);
+    }
+    return null
+  }
+
   render() {
     const sameUser = isSameUser(this.props.currentMessage, this.props.nextMessage);
     return (
@@ -108,17 +134,28 @@ export default class Message extends React.Component {
         {this.props.currentMessage.system ? (
           this.renderSystemMessage()
         ) : (
-          <View
-            style={[
-              styles[this.props.position].container,
-              { marginBottom: sameUser ? 2 : 10 },
-              !this.props.inverted && { marginBottom: 2 },
-              this.props.containerStyle[this.props.position],
-            ]}
-          >
-            {this.props.position === 'left' ? this.renderAvatar() : null}
-            {this.renderBubble()}
-            {this.props.position === 'right' ? this.renderAvatar() : null}
+          <View style ={styles.mainContainer}>
+            {this.props.position === 'right' ? 
+              (<View style={[styles.leftActionContainer]}>
+                {this.renderMessageAction()}
+              </View>) : null}
+            
+            <View
+              style={[
+                styles[this.props.position].container,
+                { flex:1, marginBottom: sameUser ? 2 : 10 },
+                !this.props.inverted && { marginBottom: 2 },
+                this.props.containerStyle[this.props.position]
+              ]}
+            >
+                {this.props.position === 'left' ? this.renderAvatar() : null}
+                {this.renderBubble()}
+                {this.props.position === 'right' ? this.renderAvatar() : null}
+            </View>
+            {this.props.position === 'left' ? 
+              (<View style={[styles.rightActionContainer]}>
+                {this.renderMessageAction()}
+              </View>) : null }
           </View>
         )}
       </View>
@@ -132,6 +169,7 @@ Message.defaultProps = {
   renderBubble: null,
   renderDay: null,
   renderSystemMessage: null,
+  renderMessageAction: null,
   position: 'left',
   currentMessage: {},
   nextMessage: {},
@@ -148,6 +186,7 @@ Message.propTypes = {
   renderBubble: PropTypes.func,
   renderDay: PropTypes.func,
   renderSystemMessage: PropTypes.func,
+  renderMessageAction: PropTypes.func,
   position: PropTypes.oneOf(['left', 'right']),
   currentMessage: PropTypes.object,
   nextMessage: PropTypes.object,
