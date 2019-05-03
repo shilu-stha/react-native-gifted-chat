@@ -29,6 +29,7 @@ import Message from './Message';
 import MessageContainer from './MessageContainer';
 import Send from './Send';
 import Time from './Time';
+import Color from './Color';
 import GiftedAvatar from './GiftedAvatar';
 
 import {
@@ -570,6 +571,9 @@ GiftedChat.defaultProps = {
   extraData: null,
   minComposerHeight: MIN_COMPOSER_HEIGHT,
   maxComposerHeight: MAX_COMPOSER_HEIGHT,
+  leftBubbleBackground: Color.leftBubbleBackground,
+  rightBubbleBackground: Color.defaultBlue,
+  rightBubbleErrorBackground: Color.alizarin
 };
 
 GiftedChat.propTypes = {
@@ -629,6 +633,9 @@ GiftedChat.propTypes = {
   minComposerHeight: PropTypes.number,
   maxComposerHeight: PropTypes.number,
   alignTop: PropTypes.bool,
+  leftBubbleBackground: PropTypes.string,
+  rightBubbleBackground: PropTypes.string,
+  rightBubbleErrorBackground: PropTypes.string
 };
 
 export {

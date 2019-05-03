@@ -10,6 +10,7 @@ import MessageVideo from './MessageVideo';
 
 import Time from './Time';
 import Color from './Color';
+import { status } from './Constant';
 
 import { isSameUser, isSameDay } from './utils';
 
@@ -155,6 +156,11 @@ export default class Bubble extends React.Component {
   }
 
   render() {
+    const { currentMessage } = this.props;
+    const rightBubbleBackground = currentMessage.status === status.FAILED 
+      ? this.props.rightBubbleErrorBackground 
+      : this.props.rightBubbleBackground
+    
     return (
       <View style={[styles[this.props.position].container, this.props.containerStyle[this.props.position]]}>
         <View
@@ -163,6 +169,9 @@ export default class Bubble extends React.Component {
             this.props.wrapperStyle[this.props.position],
             this.handleBubbleToNext(),
             this.handleBubbleToPrevious(),
+            this.props.position === "left" 
+              ? { backgroundColor: this.props.leftBubbleBackground } 
+              : { backgroundColor: rightBubbleBackground }
           ]}
         >
           <TouchableWithoutFeedback
@@ -197,7 +206,6 @@ const styles = {
     },
     wrapper: {
       borderRadius: 15,
-      backgroundColor: Color.leftBubbleBackground,
       marginRight: 20,
       minHeight: 20,
       justifyContent: 'flex-end',
@@ -220,7 +228,6 @@ const styles = {
     },
     wrapper: {
       borderRadius: 15,
-      backgroundColor: Color.defaultBlue,
       marginLeft: 20,
       minHeight: 20,
       justifyContent: 'flex-end',
@@ -288,6 +295,9 @@ Bubble.defaultProps = {
   usernameStyle: {},
   containerToNextStyle: {},
   containerToPreviousStyle: {},
+  leftBubbleBackground: Color.leftBubbleBackground,
+  rightBubbleBackground: Color.defaultBlue,
+  rightBubbleErrorBackground: Color.alizarin,
 };
 
 Bubble.propTypes = {
@@ -329,4 +339,7 @@ Bubble.propTypes = {
     left: ViewPropTypes.style,
     right: ViewPropTypes.style,
   }),
+  leftBubbleBackground: PropTypes.string,
+  rightBubbleBackground: PropTypes.string,
+  rightBubbleErrorBackground: PropTypes.string
 };

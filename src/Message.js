@@ -12,40 +12,30 @@ import Day from './Day';
 import { isSameUser, isSameDay } from './utils';
 
 const styles = {
-  mainContainer: { 
-    flex:1, 
-    flexDirection: 'row' 
-  },
-  leftActionContainer: {
-    flex: 1,
-    margin: 8,
-    alignSelf:'stretch',
-    alignItems: 'flex-end',
-    justifyContent: 'center'
-  },
-  rightActionContainer: {
-    flex:1,
-    margin: 8,
-    alignSelf:'stretch',
-    alignItems: 'flex-start',
-    justifyContent: 'center'
-  },
   left: StyleSheet.create({
     container: {
       flexDirection: 'row',
-      alignItems: 'flex-end',
-      justifyContent: 'flex-start',
-      marginLeft: 8,
-      marginRight: 0,
+      alignItems: 'center'
+    },
+    bubbleContainer: {
+      marginLeft: 8
+    },
+    actionContainer:{
+      alignItems: 'flex-start',
+      justifyContent: 'space-between'
     }
   }),
   right: StyleSheet.create({
     container: {
-      flexDirection: 'row',
+      flexDirection: 'row-reverse',
+      alignItems: 'center'
+    },
+    bubbleContainer: {
+      marginRight: 8
+    },
+    actionContainer:{
       alignItems: 'flex-end',
-      justifyContent: 'flex-end',
-      marginLeft: 0,
-      marginRight: 8,
+      justifyContent: 'space-between'
     }
   })
 };
@@ -134,7 +124,22 @@ export default class Message extends React.Component {
         {this.props.currentMessage.system ? (
           this.renderSystemMessage()
         ) : (
-          <View style ={styles.mainContainer}>
+          <View
+              style={[
+                styles[this.props.position].container,
+                { marginBottom: sameUser ? 2 : 10 },
+                !this.props.inverted && { marginBottom: 2 },
+                this.props.containerStyle[this.props.position]
+              ]}
+            >
+              {this.renderAvatar()}
+              <View style ={[styles[this.props.position].bubbleContainer]}>
+                {this.renderBubble()}
+              </View>
+              <View style={[styles[this.props.position].actionContainer]}>
+                {this.renderMessageAction()}
+              </View>
+          {/* <View style ={styles.mainContainer}>
             {this.props.position === 'right' ? 
               (<View style={[styles.leftActionContainer]}>
                 {this.renderMessageAction()}
@@ -156,6 +161,8 @@ export default class Message extends React.Component {
               (<View style={[styles.rightActionContainer]}>
                 {this.renderMessageAction()}
               </View>) : null }
+          </View> */}
+
           </View>
         )}
       </View>
